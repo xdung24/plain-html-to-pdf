@@ -53,7 +53,7 @@ public class PdfGenerator_MultipleThread_Test : TestBase
             Assert.True(pdfDocuments[i].PageCount > 0);
             var fileName = $"out\\output_{i + 1}.pdf";
             pdfDocuments[i].Save(fileName);
-            Console.WriteLine($"PDF {i} saved as {fileName}");
+            Assert.True(File.Exists(fileName), $"The file {fileName} should exist after saving.");
         }
     }
 }

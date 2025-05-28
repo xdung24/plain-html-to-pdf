@@ -10,6 +10,10 @@ public class TestBase
     protected static string ReadFileToStream(string fileName)
     {
         var sourceDir = Path.GetDirectoryName(typeof(TestBase).Assembly.Location);
+        if (sourceDir == null)
+        {
+            throw new InvalidOperationException("Source directory cannot be determined.");
+        }
         var projectRoot = Path.GetFullPath(Path.Combine(sourceDir, @"../../../../"));
         var filePath = Path.Combine(projectRoot, "PlainHtmlToPdf.Tests", "TestData", fileName);
 

@@ -11,11 +11,12 @@
     <Description>.NET Core port of HtmlRenderer</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <LangVersion>10</LangVersion>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/xdung24/plain-html-to-pdf</RepositoryUrl>
     <Authors>xdung24</Authors>
     <Version>1.0.2</Version>
-	<PackageReadmeFile>README.md</PackageReadmeFile>
+    <NoWarn>SYSLIB0014</NoWarn>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	  <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
