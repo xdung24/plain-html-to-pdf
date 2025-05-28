@@ -6,7 +6,7 @@ namespace PlainHtmlToPdf.Core;
 /// <summary>
 /// General utilities.
 /// </summary>
-public static class HtmlRendererUtils
+public class HtmlRendererUtils
 {
     /// <summary>
     /// Measure the size of the html by performing layout under the given restrictions.

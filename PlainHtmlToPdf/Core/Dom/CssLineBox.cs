@@ -10,7 +10,7 @@ namespace PlainHtmlToPdf.Core.Dom;
 /// To learn more about line-boxes see CSS spec:
 /// http://www.w3.org/TR/CSS21/visuren.html
 /// </remarks>
-internal sealed class CssLineBox
+internal class CssLineBox
 {
     #region Fields and Consts
 

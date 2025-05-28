@@ -9,7 +9,7 @@ namespace PlainHtmlToPdf.Core.Parse;
 /// <summary>
 /// Parse CSS properties values like numbers, Urls, etc.
 /// </summary>
-internal sealed class CssValueParser
+internal class CssValueParser
 {
     #region Fields and Consts
 

@@ -23,7 +23,7 @@ public delegate void HtmlImageLoadCallback(string path, Object image, RRect imag
 /// provide file path to load the image from. Can also use the asynchronous image overwrite not to block HTML rendering is applicable.<br/>
 /// If no alternative data is provided the original source will be used.<br/>
 /// </summary>
-public sealed class HtmlImageLoadEventArgs : EventArgs
+public class HtmlImageLoadEventArgs : EventArgs
 {
     #region Fields and Consts
 

@@ -9,7 +9,7 @@ namespace PlainHtmlToPdf.Core.Handlers;
 /// <summary>
 /// Handler for text selection in the html.
 /// </summary>
-internal sealed class SelectionHandler : IDisposable
+internal class SelectionHandler : IDisposable
 {
     #region Fields and Consts
 

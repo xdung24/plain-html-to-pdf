@@ -21,7 +21,7 @@ public delegate void DownloadFileAsyncCallback(Uri imageUri, string filePath, Ex
 /// Also handles corrupt, partial and canceled downloads by first downloading to temp file and only if successful moving to cached 
 /// file location.
 /// </summary>
-internal sealed class ImageDownloader : IDisposable
+internal class ImageDownloader : IDisposable
 {
     /// <summary>
     /// the web client used to download image from URL (to cancel on dispose)

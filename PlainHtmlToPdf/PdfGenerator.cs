@@ -15,18 +15,18 @@ public class PdfGenerator
 {
     public string DefaultFont
     {
-        get { return ShareConfig.DefaultFontFamily; }
-        set { ShareConfig.DefaultFontFamily = value; }
+        get { return PdfGenerateConfig.DefaultFontFamily; }
+        set { PdfGenerateConfig.DefaultFontFamily = value; }
     }
 
     public PdfGenerator()
     {
-        ShareConfig.DefaultFontFamily = "Segoe UI";
+        PdfGenerateConfig.DefaultFontFamily = "Segoe UI";
     }
 
     public PdfGenerator(string defaultFont)
     {
-        ShareConfig.DefaultFontFamily = defaultFont;
+        PdfGenerateConfig.DefaultFontFamily = defaultFont;
     }
 
     /// <summary>

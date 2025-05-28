@@ -9,16 +9,26 @@ public class PdfGenerator_MultipleThread_Test : TestBase
     public async Task GeneratePdfFromHtmlInMultipleThreads()
     {
         // Arrange
-        var html = ReadFileToStream("basic_page.html");
+        var template = ReadFileToStream("template.html");
         var tasks = new List<Task<PdfDocument>>();
 
-        // Act
-        for (int i = 0; i < 100; i++)
+        if (Directory.Exists("out"))
         {
-            int taskIndex = i; // Capture the current index for the task
+            Directory.Delete("out", true);
+        }
+        int totalTasks = 100; // Total number of tasks to run
+
+        // Act
+        var _pdfGenerator = new PdfGenerator();
+        for (int i = 0; i < totalTasks; i++)
+        {
+            int taskIndex = i + 1; // Capture the current index for the task
             tasks.Add(Task.Run(() =>
             {
-                var _pdfGenerator = new PdfGenerator();
+                var img_src = $"https://github.com/yavuzceliker/sample-images/blob/main/images/image-{taskIndex}.jpg?raw=true";
+                var html = template.Replace("{{img_src}}", img_src)
+                                   .Replace("{{img_title}}", $"image {taskIndex}")
+                                   .Replace("{{img_description}}", $"image {taskIndex} description");
                 return _pdfGenerator.GeneratePdf(html,
                     new PdfGenerateConfig
                     {
@@ -30,11 +40,20 @@ public class PdfGenerator_MultipleThread_Test : TestBase
 
         var pdfDocuments = await Task.WhenAll(tasks);
 
-        // Assert
-        foreach (var pdfDocument in pdfDocuments)
+
+        if (!Directory.Exists("out"))
         {
-            Assert.NotNull(pdfDocument);
-            Assert.True(pdfDocument.PageCount > 0);
+            Directory.CreateDirectory("out");
+        }
+        // Assert and save the generated PDFs to files
+        Assert.True(pdfDocuments.Length == totalTasks, "The number of generated PDF documents should match the number of tasks.");
+        for (int i = 0; i < totalTasks; i++)
+        {
+            Assert.NotNull(pdfDocuments[i]);
+            Assert.True(pdfDocuments[i].PageCount > 0);
+            var fileName = $"out\\output_{i + 1}.pdf";
+            pdfDocuments[i].Save(fileName);
+            Console.WriteLine($"PDF {i} saved as {fileName}");
         }
     }
 }

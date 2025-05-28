@@ -25,7 +25,7 @@ namespace PlainHtmlToPdf.Core.Handlers;
 /// Disposing image load handler will also cancel download of image from the web.
 /// </para>
 /// </remarks>
-internal sealed class ImageLoadHandler : IDisposable
+internal class ImageLoadHandler : IDisposable
 {
     #region Fields and Consts
 

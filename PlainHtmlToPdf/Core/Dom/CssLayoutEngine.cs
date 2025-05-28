@@ -7,7 +7,7 @@ namespace PlainHtmlToPdf.Core.Dom;
 /// <summary>
 /// Helps on CSS Layout.
 /// </summary>
-internal static class CssLayoutEngine
+internal class CssLayoutEngine
 {
     /// <summary>
     /// Measure image box size by the width\height set on the box and the actual rendered image size.<br/>

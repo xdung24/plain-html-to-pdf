@@ -5,7 +5,7 @@ namespace PlainHtmlToPdf.Core.Dom;
 /// <summary>
 /// Used to make space on vertical cell combination
 /// </summary>
-internal sealed class CssSpacingBox : CssBox
+internal class CssSpacingBox : CssBox
 {
     #region Fields and Consts
 

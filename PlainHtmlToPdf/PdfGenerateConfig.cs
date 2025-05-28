@@ -6,7 +6,7 @@ namespace PlainHtmlToPdf;
 /// <summary>
 /// The settings for generating PDF using <see cref="PdfGenerator"/>
 /// </summary>
-public sealed class PdfGenerateConfig
+public class PdfGenerateConfig
 {
     #region Fields/Consts
 
@@ -162,4 +162,9 @@ public sealed class PdfGenerateConfig
     {
         return new XSize(width * 72, height * 72);
     }
+
+    /// <summary>
+    /// Default font family to use when no font family is specified in the HTML/CSS.<br/>
+    /// </summary>
+    public static string DefaultFontFamily { get; set; } = "Segoe UI";
 }

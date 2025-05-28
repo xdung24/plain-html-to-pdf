@@ -1,6 +1,6 @@
 namespace PlainHtmlToPdf.Core;
 
-internal static class CssDefaults
+internal class CssDefaults
 {
     /// <summary>
     /// CSS Specification's Default Style Sheet for HTML 4

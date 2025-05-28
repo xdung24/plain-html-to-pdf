@@ -4,7 +4,7 @@ namespace PlainHtmlToPdf.Core.Entities;
 /// <summary>
 /// Raised when an error occurred during html rendering.
 /// </summary>
-public sealed class HtmlRenderErrorEventArgs : EventArgs
+public class HtmlRenderErrorEventArgs : EventArgs
 {
     /// <summary>
     /// error type that is reported

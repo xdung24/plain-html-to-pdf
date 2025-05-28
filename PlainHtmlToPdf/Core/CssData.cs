@@ -12,7 +12,7 @@ namespace PlainHtmlToPdf.Core;
 /// <remarks>
 /// To learn more about CSS blocks visit CSS spec: http://www.w3.org/TR/CSS21/syndata.html#block
 /// </remarks>
-public sealed class CssData
+public class CssData
 {
     #region Fields and Consts
 

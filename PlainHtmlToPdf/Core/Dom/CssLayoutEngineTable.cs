@@ -9,7 +9,7 @@ namespace PlainHtmlToPdf.Core.Dom;
 /// <summary>
 /// Layout engine for tables executing the complex layout of tables with rows/columns/headers/etc.
 /// </summary>
-internal sealed class CssLayoutEngineTable
+internal class CssLayoutEngineTable
 {
     #region Fields and Consts
 

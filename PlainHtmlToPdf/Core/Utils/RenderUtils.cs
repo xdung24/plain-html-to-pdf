@@ -7,7 +7,7 @@ namespace PlainHtmlToPdf.Core.Utils;
 /// <summary>
 /// Provides some drawing functionality
 /// </summary>
-internal static class RenderUtils
+internal class RenderUtils
 {
     /// <summary>
     /// Check if the given color is visible if painted (has alpha and color values)

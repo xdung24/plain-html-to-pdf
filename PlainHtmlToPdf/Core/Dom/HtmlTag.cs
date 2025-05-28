@@ -2,7 +2,7 @@ using PlainHtmlToPdf.Core.Utils;
 
 namespace PlainHtmlToPdf.Core.Dom;
 
-internal sealed class HtmlTag
+internal class HtmlTag
 {
     #region Fields and Consts
 

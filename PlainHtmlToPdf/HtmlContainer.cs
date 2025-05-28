@@ -12,7 +12,7 @@ namespace PlainHtmlToPdf;
 /// Low level handling of Html Renderer logic, this class is used by <see cref="PdfGenerator"/>.
 /// </summary>
 /// <seealso cref="HtmlContainerInt"/>
-public sealed class HtmlContainer : IDisposable
+public class HtmlContainer : IDisposable
 {
     #region Fields and Consts
 

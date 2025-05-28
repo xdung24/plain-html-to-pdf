@@ -8,7 +8,7 @@ namespace PlainHtmlToPdf.Core.Handlers;
 /// <summary>
 /// Contains all the complex paint code to paint different style borders.
 /// </summary>
-internal static class BordersDrawHandler
+internal class BordersDrawHandler
 {
     #region Fields and Consts
 

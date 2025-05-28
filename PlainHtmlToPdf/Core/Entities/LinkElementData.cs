@@ -4,7 +4,7 @@
 /// Holds data on link element in HTML.<br/>
 /// Used to expose data outside of HTML Renderer internal structure.
 /// </summary>
-public sealed class LinkElementData<T>
+public class LinkElementData<T>
 {
     /// <summary>
     /// the id of the link element if present

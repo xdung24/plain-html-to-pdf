@@ -7,7 +7,7 @@ namespace PlainHtmlToPdf.Core.Entities;
 /// Example: The stylesheet 'href' can be non-valid URI string that is interpreted in the overwrite delegate by custom logic to pre-loaded stylesheet object<br/>
 /// If no alternative data is provided the original source will be used.<br/>
 /// </summary>
-public sealed class HtmlStylesheetLoadEventArgs : EventArgs
+public class HtmlStylesheetLoadEventArgs : EventArgs
 {
     #region Fields and Consts
 

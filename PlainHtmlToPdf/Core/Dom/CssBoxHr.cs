@@ -9,7 +9,7 @@ namespace PlainHtmlToPdf.Core.Dom;
 /// <summary>
 /// CSS box for hr element.
 /// </summary>
-internal sealed class CssBoxHr : CssBox
+internal class CssBoxHr : CssBox
 {
     /// <summary>
     /// Init.

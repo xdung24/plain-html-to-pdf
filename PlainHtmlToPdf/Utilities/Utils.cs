@@ -7,7 +7,7 @@ namespace PlainHtmlToPdf.Utilities;
 /// <summary>
 /// Utilities for converting WinForms entities to HtmlRenderer core entities.
 /// </summary>
-internal static class Utils
+internal class Utils
 {
     /// <summary>
     /// Convert from WinForms point to core point.

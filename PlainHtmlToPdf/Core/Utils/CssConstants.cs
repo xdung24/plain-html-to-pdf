@@ -3,7 +3,7 @@ namespace PlainHtmlToPdf.Core.Utils;
 /// <summary>
 /// String constants to avoid typing errors.
 /// </summary>
-internal static class CssConstants
+internal class CssConstants
 {
     public const string Absolute = "absolute";
     public const string Auto = "auto";

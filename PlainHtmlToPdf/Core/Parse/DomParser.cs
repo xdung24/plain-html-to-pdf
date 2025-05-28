@@ -10,7 +10,7 @@ namespace PlainHtmlToPdf.Core.Parse;
 /// <summary>
 /// Handle css DOM tree generation from raw html and stylesheet.
 /// </summary>
-internal sealed class DomParser
+internal class DomParser
 {
     #region Fields and Consts
 
@@ -160,7 +160,7 @@ internal sealed class DomParser
         }
 
         // cascade text decoration only to boxes that actually have text so it will be handled correctly.
-        if (box.TextDecoration != String.Empty && box.Text == null)
+        if (box.TextDecoration != string.Empty && box.Text == null)
         {
             foreach (var childBox in box.Boxes)
                 childBox.TextDecoration = box.TextDecoration;

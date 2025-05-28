@@ -6,7 +6,7 @@ namespace PlainHtmlToPdf.Core.Entities;
 /// Raised when Html Renderer request scroll to specific location.<br/>
 /// This can occur on document anchor click.
 /// </summary>
-public sealed class HtmlScrollEventArgs : EventArgs
+public class HtmlScrollEventArgs : EventArgs
 {
     /// <summary>
     /// the location to scroll to

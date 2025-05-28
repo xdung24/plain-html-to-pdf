@@ -13,7 +13,7 @@ namespace PlainHtmlToPdf.Core.Dom;
 /// CSS box for iframe element.<br/>
 /// If the iframe is of embedded YouTube or Vimeo video it will show image with play.
 /// </summary>
-internal sealed class CssBoxFrame : CssBox
+internal class CssBoxFrame : CssBox
 {
     #region Fields and Consts
 

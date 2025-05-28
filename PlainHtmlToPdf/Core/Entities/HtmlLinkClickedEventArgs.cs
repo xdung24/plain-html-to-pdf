@@ -4,7 +4,7 @@ namespace PlainHtmlToPdf.Core.Entities;
 /// <summary>
 /// Raised when the user clicks on a link in the html.
 /// </summary>
-public sealed class HtmlLinkClickedEventArgs : EventArgs
+public class HtmlLinkClickedEventArgs : EventArgs
 {
     /// <summary>
     /// the link href that was clicked

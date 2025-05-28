@@ -1,7 +1,7 @@
 ﻿
 namespace PlainHtmlToPdf.Core.Utils;
 
-internal static class HtmlUtils
+internal class HtmlUtils
 {
     #region Fields and Consts
 

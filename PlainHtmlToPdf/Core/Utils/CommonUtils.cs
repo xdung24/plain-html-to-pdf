@@ -14,7 +14,7 @@ internal delegate void ActionInt<in T1, in T2, in T3>(T1 arg1, T2 arg2, T3 arg3)
 /// <summary>
 /// Utility methods for general stuff.
 /// </summary>
-internal static class CommonUtils
+internal class CommonUtils
 {
     #region Fields and Consts
 
@@ -66,7 +66,7 @@ internal static class CommonUtils
     /// <summary>
     /// the temp path to use for local files
     /// </summary>
-    public static String _tempPath;
+    public static string _tempPath;
 
     #endregion
 

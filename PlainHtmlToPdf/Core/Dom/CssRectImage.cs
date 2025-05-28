@@ -6,7 +6,7 @@ namespace PlainHtmlToPdf.Core.Dom;
 /// <summary>
 /// Represents a word inside an inline box
 /// </summary>
-internal sealed class CssRectImage : CssRect
+internal class CssRectImage : CssRect
 {
     #region Fields and Consts
 

@@ -1252,7 +1252,7 @@ internal abstract class CssBoxProperties
             {
                 if (string.IsNullOrEmpty(FontFamily))
                 {
-                    FontFamily = ShareConfig.DefaultFontFamily;
+                    FontFamily = PdfGenerateConfig.DefaultFontFamily;
                 }
                 if (string.IsNullOrEmpty(FontSize))
                 {

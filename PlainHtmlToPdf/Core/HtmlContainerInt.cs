@@ -63,7 +63,7 @@ namespace PlainHtmlToPdf.Core;
 /// Raised when an error occurred during html rendering.<br/>
 /// </para>
 /// </remarks>
-public sealed class HtmlContainerInt : IDisposable
+public class HtmlContainerInt : IDisposable
 {
     #region Fields and Consts
 

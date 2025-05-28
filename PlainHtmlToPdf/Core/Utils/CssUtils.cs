@@ -8,7 +8,7 @@ namespace PlainHtmlToPdf.Core.Utils;
 /// <summary>
 /// Utility method for handling CSS stuff.
 /// </summary>
-internal static class CssUtils
+internal class CssUtils
 {
     #region Fields and Consts
 
@@ -37,7 +37,7 @@ internal static class CssUtils
     public static double WhiteSpace(RGraphics g, CssBoxProperties box)
     {
         double w = box.ActualFont.GetWhitespaceWidth(g);
-        if (!(String.IsNullOrEmpty(box.WordSpacing) || box.WordSpacing == CssConstants.Normal))
+        if (!(string.IsNullOrEmpty(box.WordSpacing) || box.WordSpacing == CssConstants.Normal))
         {
             w += CssValueParser.ParseLength(box.WordSpacing, 0, box, true);
         }

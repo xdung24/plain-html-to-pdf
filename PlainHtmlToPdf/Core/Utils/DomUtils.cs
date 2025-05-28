@@ -9,7 +9,7 @@ namespace PlainHtmlToPdf.Core.Utils;
 /// <summary>
 /// Utility class for traversing DOM structure and execution stuff on it.
 /// </summary>
-internal sealed class DomUtils
+internal class DomUtils
 {
     /// <summary>
     /// Check if the given location is inside the given box deep.<br/>

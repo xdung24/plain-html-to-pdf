@@ -8,7 +8,7 @@ namespace PlainHtmlToPdf.Core.Dom;
 /// <summary>
 /// CSS box for image element.
 /// </summary>
-internal sealed class CssBoxImage : CssBox
+internal class CssBoxImage : CssBox
 {
     #region Fields and Consts
 

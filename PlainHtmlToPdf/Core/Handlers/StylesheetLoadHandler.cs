@@ -7,7 +7,7 @@ namespace PlainHtmlToPdf.Core.Handlers;
 /// <summary>
 /// Handler for loading a stylesheet data.
 /// </summary>
-internal static class StylesheetLoadHandler
+internal class StylesheetLoadHandler
 {
     /// <summary>
     /// Load stylesheet data from the given source.<br/>

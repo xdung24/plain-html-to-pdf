@@ -3,7 +3,7 @@ namespace PlainHtmlToPdf.Core.Utils;
 /// <summary>
 /// Defines HTML strings
 /// </summary>
-internal static class HtmlConstants
+internal class HtmlConstants
 {
     public const string A = "a";
     //        public const string ABBR = "ABBR";

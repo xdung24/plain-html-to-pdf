@@ -9,7 +9,7 @@ namespace PlainHtmlToPdf.Core.Handlers;
 /// <summary>
 /// Handle context menu.
 /// </summary>
-internal sealed class ContextMenuHandler : IDisposable
+internal class ContextMenuHandler : IDisposable
 {
     #region Fields and Consts
 
