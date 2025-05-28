@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net9.0;</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>PDF document generator from HTML snippet, 100% managed (C#), High performance library using PdfSharpCore.</Description>
+    <PackageId>PlainHtmlToPdf</PackageId>
+    <Product>PlainHtmlToPdf</Product>
+    <PackageTags>html, render, renderer, pdf, draw, core</PackageTags>
+    <Description>.NET Core port of HtmlRenderer</Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <LangVersion>10</LangVersion>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Core\Utils\ImageError.png" />
+    <None Remove="Core\Utils\ImageLoad.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Core\Utils\ImageError.png" />
+    <EmbeddedResource Include="Core\Utils\ImageLoad.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="PdfSharpCore" Version="1.3.67" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE" Pack="true" PackagePath=""/>
+	<None Include="..\README.md" Pack="true" PackagePath=""/>
+  </ItemGroup>
+</Project>
