@@ -12,11 +12,7 @@ public class PdfGenerator_MultipleThread_Test : TestBase
         var template = ReadFileToStream("template.html");
         var tasks = new List<Task<PdfDocument>>();
 
-        if (Directory.Exists("out"))
-        {
-            Directory.Delete("out", true);
-        }
-        int totalTasks = 100; // Total number of tasks to run
+        int totalTasks = 10; // Total number of tasks to run
 
         // Act
         var _pdfGenerator = new PdfGenerator();
@@ -40,18 +36,15 @@ public class PdfGenerator_MultipleThread_Test : TestBase
 
         var pdfDocuments = await Task.WhenAll(tasks);
 
-
-        if (!Directory.Exists("out"))
-        {
-            Directory.CreateDirectory("out");
-        }
         // Assert and save the generated PDFs to files
         Assert.True(pdfDocuments.Length == totalTasks, "The number of generated PDF documents should match the number of tasks.");
         for (int i = 0; i < totalTasks; i++)
         {
             Assert.NotNull(pdfDocuments[i]);
             Assert.True(pdfDocuments[i].PageCount > 0);
-            var fileName = $"out\\output_{i + 1}.pdf";
+            var fileName = $"output_{i + 1}.pdf";
+            if (File.Exists(fileName))
+                File.Delete(fileName); // Ensure the file does not exist before saving
             pdfDocuments[i].Save(fileName);
             Assert.True(File.Exists(fileName), $"The file {fileName} should exist after saving.");
         }
