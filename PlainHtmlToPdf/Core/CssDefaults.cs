@@ -62,7 +62,7 @@ internal static class CssDefaults
         tfoot, tr       { vertical-align: middle }
         td, th          { vertical-align: inherit }
         s, strike, del  { text-decoration: line-through }
-        hr              { border: 1px inset; }
+        hr              { border: black 1px inset; }
         ol, ul, dir,
         menu, dd        { margin-left: 40px }
         ol              { list-style-type: decimal }
@@ -95,8 +95,8 @@ internal static class CssDefaults
 
         /* Not in the specification but necessary */
         a               { color: #0055BB; text-decoration:underline }
-        table           { border-color:#dfdfdf; }
-        td, th          { border-color:#dfdfdf; overflow: hidden; }
+        table           { border-color: #dfdfdf; }
+        td, th          { border-color: #dfdfdf; overflow: hidden; }
         style, title,
         script, link,
         meta, area,
@@ -106,9 +106,9 @@ internal static class CssDefaults
         
         /*This is the background of the HtmlToolTip*/
         .htmltooltip {
-            border:solid 1px #767676;
-            background-color:white;
-            background-gradient:#E4E5F0;
+            border: #767676 solid 1px ;
+            background-color: white;
+            background-gradient: #E4E5F0;
             padding: 8px; 
             Font: 9pt Tahoma;
         }";

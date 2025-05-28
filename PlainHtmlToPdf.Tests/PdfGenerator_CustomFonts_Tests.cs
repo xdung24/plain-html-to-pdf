@@ -8,6 +8,7 @@ public class PdfGenerator_CustomFonts_Tests
 {
     private static readonly bool _useSystemFonts = false; // Set to true to use system fonts
     private static bool _fontResolverInitialized = false;
+    private static PdfGenerator _pdfGenerator = new PdfGenerator();
 
     // Ensure the custom font resolver is set only once for all test cases
     static PdfGenerator_CustomFonts_Tests()
@@ -25,13 +26,13 @@ public class PdfGenerator_CustomFonts_Tests
             _fontResolverInitialized = true;
         }
         // Fallback to Times New Roman for Arial font, because Arial is not available in the default font resolver
-        PdfGenerator.AddFontFamilyMapping("Arial", "Times New Roman");
+        _pdfGenerator.AddFontFamilyMapping("Arial", "Times New Roman");
         // Fallback to Consolas for Courier New font, because Courier New is not available in the default font resolver
-        PdfGenerator.AddFontFamilyMapping("Courier New", "Consolas");
+        _pdfGenerator.AddFontFamilyMapping("Courier New", "Consolas");
         // Fallback to Noto Sans for Liberation Sans font, because Liberation Sans is not available in the default font resolver
-        PdfGenerator.AddFontFamilyMapping("Liberation Sans", "Noto Sans");
+        _pdfGenerator.AddFontFamilyMapping("Liberation Sans", "Noto Sans");
         // Fallback to Noto Serif font for Liberation Serif, because Liberation Serif is not available in the default font resolver
-        PdfGenerator.AddFontFamilyMapping("Liberation Serif", "Noto Serif");
+        _pdfGenerator.AddFontFamilyMapping("Liberation Serif", "Noto Serif");
     }
 
     [Theory]
@@ -44,16 +45,16 @@ public class PdfGenerator_CustomFonts_Tests
     [InlineData("eform_fpt", "Courier New")]
     [InlineData("eform_fpt", "Liberation Sans")]
     [InlineData("eform_fpt", "Liberation Serif")]
-    public void GerneratePdfFromHtml(string testName, string fontName)
+    public async Task GerneratePdfFromHtml(string testName, string fontName)
     {
         // Set the default font for PDF generation
-        PdfGenerator.DefaultFont = fontName;
+        _pdfGenerator.DefaultFont = fontName;
 
         // Arrange
         var html = ReadFileToStream($"{testName}.html");
 
         // Act
-        var pdfDocument = PdfGenerator.GeneratePdf(html,
+        var pdfDocument = _pdfGenerator.GeneratePdf(html,
             new PdfGenerateConfig
             {
                 PageSize = PageSize.A4,
@@ -83,7 +84,7 @@ public class PdfGenerator_CustomFonts_Tests
 
         // Save the stream to file for manual inspection if needed
         using var fileStream = new FileStream($"{testName}_{fontName.Replace(' ', '_')}.pdf", FileMode.Create, FileAccess.Write);
-        resultStream.CopyTo(fileStream);
+        await resultStream.CopyToAsync(fileStream);
     }
 
 

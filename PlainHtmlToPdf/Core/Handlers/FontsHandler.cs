@@ -131,6 +131,10 @@ internal sealed class FontsHandler
     /// </summary>
     private RFont TryGetFont(string family, double size, RFontStyle style)
     {
+        if (string.IsNullOrEmpty(family))
+        {
+            return null;
+        }
         RFont font = null;
         if (_fontsCache.ContainsKey(family))
         {

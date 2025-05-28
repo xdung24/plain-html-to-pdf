@@ -11,12 +11,23 @@ namespace PlainHtmlToPdf;
 /// <summary>
 /// TODO:a add doc
 /// </summary>
-public static class PdfGenerator
+public class PdfGenerator
 {
-    /// <summary>
-    /// Default font used for the generic 'serif' family
-    /// </summary>
-    public static string DefaultFont = "Segoe UI";
+    public string DefaultFont
+    {
+        get { return ShareConfig.DefaultFontFamily; }
+        set { ShareConfig.DefaultFontFamily = value; }
+    }
+
+    public PdfGenerator()
+    {
+        ShareConfig.DefaultFontFamily = "Segoe UI";
+    }
+
+    public PdfGenerator(string defaultFont)
+    {
+        ShareConfig.DefaultFontFamily = defaultFont;
+    }
 
     /// <summary>
     /// Adds a font mapping from <paramref name="fromFamily"/> to <paramref name="toFamily"/> iff the <paramref name="fromFamily"/> is not found.<br/>
@@ -28,7 +39,7 @@ public static class PdfGenerator
     /// </remarks>
     /// <param name="fromFamily">the font family to replace</param>
     /// <param name="toFamily">the font family to replace with</param>
-    public static void AddFontFamilyMapping(string fromFamily, string toFamily)
+    public void AddFontFamilyMapping(string fromFamily, string toFamily)
     {
         ArgChecker.AssertArgNotNullOrEmpty(fromFamily, "fromFamily");
         ArgChecker.AssertArgNotNullOrEmpty(toFamily, "toFamily");
@@ -45,7 +56,7 @@ public static class PdfGenerator
     /// <param name="stylesheet">the stylesheet source to parse</param>
     /// <param name="combineWithDefault">true - combine the parsed css data with default css data, false - return only the parsed css data</param>
     /// <returns>the parsed css data</returns>
-    public static CssData ParseStyleSheet(string stylesheet, bool combineWithDefault = true)
+    public CssData ParseStyleSheet(string stylesheet, bool combineWithDefault = true)
     {
         return CssData.Parse(PdfSharpAdapter.Instance, stylesheet, combineWithDefault);
     }
@@ -60,7 +71,7 @@ public static class PdfGenerator
     /// <param name="stylesheetLoad">optional: can be used to overwrite stylesheet resolution logic</param>
     /// <param name="imageLoad">optional: can be used to overwrite image resolution logic</param>
     /// <returns>the generated image of the html</returns>
-    public static PdfDocument GeneratePdf(string html, PageSize pageSize, int margin = 20, CssData cssData = null, EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlImageLoadEventArgs> imageLoad = null)
+    public PdfDocument GeneratePdf(string html, PageSize pageSize, int margin = 20, CssData cssData = null, EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlImageLoadEventArgs> imageLoad = null)
     {
         var config = new PdfGenerateConfig();
         config.PageSize = pageSize;
@@ -77,7 +88,7 @@ public static class PdfGenerator
     /// <param name="stylesheetLoad">optional: can be used to overwrite stylesheet resolution logic</param>
     /// <param name="imageLoad">optional: can be used to overwrite image resolution logic</param>
     /// <returns>the generated image of the html</returns>
-    public static PdfDocument GeneratePdf(string html, PdfGenerateConfig config, CssData cssData = null, EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlImageLoadEventArgs> imageLoad = null)
+    public PdfDocument GeneratePdf(string html, PdfGenerateConfig config, CssData cssData = null, EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlImageLoadEventArgs> imageLoad = null)
     {
         // create PDF document to render the HTML into
         var document = new PdfDocument();
@@ -99,7 +110,7 @@ public static class PdfGenerator
     /// <param name="stylesheetLoad">optional: can be used to overwrite stylesheet resolution logic</param>
     /// <param name="imageLoad">optional: can be used to overwrite image resolution logic</param>
     /// <returns>the generated image of the html</returns>
-    public static void AddPdfPages(PdfDocument document, string html, PageSize pageSize, int margin = 20, CssData cssData = null, EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlImageLoadEventArgs> imageLoad = null)
+    public void AddPdfPages(PdfDocument document, string html, PageSize pageSize, int margin = 20, CssData cssData = null, EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlImageLoadEventArgs> imageLoad = null)
     {
         var config = new PdfGenerateConfig();
         config.PageSize = pageSize;
@@ -117,7 +128,7 @@ public static class PdfGenerator
     /// <param name="stylesheetLoad">optional: can be used to overwrite stylesheet resolution logic</param>
     /// <param name="imageLoad">optional: can be used to overwrite image resolution logic</param>
     /// <returns>the generated image of the html</returns>
-    public static void AddPdfPages(PdfDocument document, string html, PdfGenerateConfig config, CssData cssData = null, EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlImageLoadEventArgs> imageLoad = null)
+    public void AddPdfPages(PdfDocument document, string html, PdfGenerateConfig config, CssData cssData = null, EventHandler<HtmlStylesheetLoadEventArgs> stylesheetLoad = null, EventHandler<HtmlImageLoadEventArgs> imageLoad = null)
     {
         XSize orgPageSize;
         // get the size of each page to layout the HTML in
@@ -183,14 +194,12 @@ public static class PdfGenerator
         }
     }
 
-
-
     #region Private/Protected methods
 
     /// <summary>
     /// Handle HTML links by create PDF Documents link either to external URL or to another page in the document.
     /// </summary>
-    private static void HandleLinks(PdfDocument document, HtmlContainer container, XSize orgPageSize, XSize pageSize)
+    private void HandleLinks(PdfDocument document, HtmlContainer container, XSize orgPageSize, XSize pageSize)
     {
         foreach (var link in container.GetLinks())
         {

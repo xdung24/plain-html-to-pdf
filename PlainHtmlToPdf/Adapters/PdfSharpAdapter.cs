@@ -47,7 +47,7 @@ internal sealed class PdfSharpAdapter : RAdapter
     {
         try
         {
-            var color = Color.FromKnownColor((KnownColor)System.Enum.Parse(typeof(KnownColor), colorName, true));
+            var color = Color.FromKnownColor((KnownColor)Enum.Parse(typeof(KnownColor), colorName, true));
             return Utils.Convert(color);
         }
         catch

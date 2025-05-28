@@ -1,27 +1,30 @@
-﻿using PdfSharpCore;
-using PdfSharpCore.Fonts;
-using PdfSharpCore.Pdf.IO;
+﻿using System.Threading.Tasks;
+using PdfSharpCore;
 
 namespace PlainHtmlToPdf.Tests;
 
 public class PdfGenerator_ExternalResources_Tests
 {
+    private PdfGenerator _pdfGenerator = new PdfGenerator();
+
+    public PdfGenerator_ExternalResources_Tests()
+    {
+        // Initialize the PDF generator
+        _pdfGenerator.DefaultFont = "Arial"; // Set a default font
+    }
+
     [Fact]
-    public void GerneratePdfFromHtmlWithExternalResources()
+    public async Task GerneratePdfFromHtmlWithExternalResources()
     {
         // Arrange
         var html = ReadFileToStream("photo_slide.html");
 
         // Act
-        var pdfDocument = PdfGenerator.GeneratePdf(html,
+        var pdfDocument = _pdfGenerator.GeneratePdf(html,
             new PdfGenerateConfig
             {
                 PageSize = PageSize.A4,
                 PageOrientation = PageOrientation.Portrait,
-                MarginTop = 40,
-                MarginBottom = 40,
-                MarginLeft = 25,
-                MarginRight = 25
             });
         var resultStream = new MemoryStream();
         pdfDocument.Save(resultStream, false);
@@ -36,7 +39,7 @@ public class PdfGenerator_ExternalResources_Tests
         // Save the stream to file for manual inspection if needed
         resultStream.Position = 0;
         using var fileStream = new FileStream("photo_slide.pdf", FileMode.Create, FileAccess.Write);
-        resultStream.CopyTo(fileStream);
+        await resultStream.CopyToAsync(fileStream);
     }
 
 

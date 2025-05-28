@@ -88,7 +88,6 @@ internal abstract class CssBoxProperties
 
     #endregion
 
-
     #region Fields
 
     /// <summary>
@@ -1253,7 +1252,7 @@ internal abstract class CssBoxProperties
             {
                 if (string.IsNullOrEmpty(FontFamily))
                 {
-                    FontFamily = PdfGenerator.DefaultFont;
+                    FontFamily = ShareConfig.DefaultFontFamily;
                 }
                 if (string.IsNullOrEmpty(FontSize))
                 {
