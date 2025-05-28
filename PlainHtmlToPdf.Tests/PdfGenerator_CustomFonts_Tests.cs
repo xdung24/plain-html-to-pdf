@@ -4,7 +4,7 @@ using PdfSharpCore.Pdf.IO;
 
 namespace PlainHtmlToPdf.Tests;
 
-public class PdfGenerator_CustomFonts_Tests
+public class PdfGenerator_CustomFonts_Tests : TestBase
 {
     private static readonly bool _useSystemFonts = false; // Set to true to use system fonts
     private static bool _fontResolverInitialized = false;
@@ -85,19 +85,5 @@ public class PdfGenerator_CustomFonts_Tests
         // Save the stream to file for manual inspection if needed
         using var fileStream = new FileStream($"{testName}_{fontName.Replace(' ', '_')}.pdf", FileMode.Create, FileAccess.Write);
         await resultStream.CopyToAsync(fileStream);
-    }
-
-
-    private static string ReadFileToStream(string fileName)
-    {
-        var sourceDir = Path.GetDirectoryName(typeof(PdfGenerator_CustomFonts_Tests).Assembly.Location);
-        var projectRoot = Path.GetFullPath(Path.Combine(sourceDir, @"../../../../"));
-        var filePath = Path.Combine(projectRoot, "PlainHtmlToPdf.Tests", "TestData", fileName);
-
-        if (!File.Exists(filePath))
-        {
-            throw new FileNotFoundException($"File not found: {filePath}");
-        }
-        return File.ReadAllText(filePath);
     }
 }

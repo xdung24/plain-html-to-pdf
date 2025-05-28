@@ -9,7 +9,7 @@
         font-family: Arial, sans-serif;
         margin: 0;
         padding: 0;
-        display: flex;
+        display: block;
         justify-content: center;
         align-items: center;
         height: 100vh;
@@ -23,9 +23,6 @@
         border: #ddd 2px solid;
         border-radius: 10px;
         background: #fff;
-      }
-      .slides {
-        display: none;
       }
       .slides img {
         width: 100%;
@@ -85,13 +82,13 @@
           alt="Photo 1"
         />
       </div>
-      <div class="slides">
+      <div class="slides" style="display: none;">
         <img
           src="https://github.com/xdung24/plain-html-to-pdf/blob/master/PlainHtmlToPdf.Tests/TestData/image-2.jpg?raw=true"
           alt="Photo 2"
         />
       </div>
-      <div class="slides">
+      <div class="slides" style="display: none;">
         <img
           src="https://github.com/xdung24/plain-html-to-pdf/blob/master/PlainHtmlToPdf.Tests/TestData/image-3.jpg?raw=true"
           alt="Photo 3"
@@ -105,7 +102,7 @@
         <span class="dot" onclick="currentSlide(3)"></span>
       </div>
       <div>
-        <p style="text-align: center; font-size: 14px; color: #555;">
+        <p style="text-align: center; font-size: 14px; color: #555" id="caption">
           Some images
         </p>
       </div>
@@ -139,6 +136,7 @@
         }
         slides[slideIndex - 1].style.display = "block";
         dots[slideIndex - 1].className += " active";
+        
       }
     </script>
   </body>

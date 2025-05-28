@@ -41,6 +41,11 @@ using (var stream = new MemoryStream())
 }
 ```
 
+## Known Issues
+- The library does not support all HTML and CSS features. Complex layouts and advanced CSS may not render as expected.
+- Some HTML elements may not be fully supported, leading to unexpected rendering in the PDF. (e.g., JavaScript, SVGs, css display: flex; ...)
+
+
 ## Documentation
 
 **HtmlRenderer:** https://archive.codeplex.com/?p=htmlrenderer

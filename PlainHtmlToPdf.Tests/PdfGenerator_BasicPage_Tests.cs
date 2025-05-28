@@ -2,19 +2,20 @@
 
 namespace PlainHtmlToPdf.Tests;
 
-public class PdfGenerator_ExternalResources_Tests : TestBase
+public class PdfGenerator_BasicPage_Tests : TestBase
 {
-    protected static PdfGenerator _pdfGenerator = new PdfGenerator();
-
-    public PdfGenerator_ExternalResources_Tests()
+    private static PdfGenerator _pdfGenerator = new PdfGenerator();
+    public PdfGenerator_BasicPage_Tests()
     {
+        // Initialize the PDF generator
+        _pdfGenerator.DefaultFont = "Arial"; // Set a default font
     }
 
     [Fact]
-    public async Task GerneratePdfFromHtmlWithExternalResources()
+    public async Task GerneratePdfFromBasicHtml()
     {
         // Arrange
-        var html = ReadFileToStream("photo_slide.html");
+        var html = ReadFileToStream("basic_page.html");
 
         // Act
         var pdfDocument = _pdfGenerator.GeneratePdf(html,
@@ -35,7 +36,7 @@ public class PdfGenerator_ExternalResources_Tests : TestBase
 
         // Save the stream to file for manual inspection if needed
         resultStream.Position = 0;
-        using var fileStream = new FileStream("photo_slide.pdf", FileMode.Create, FileAccess.Write);
+        using var fileStream = new FileStream("basic_page.pdf", FileMode.Create, FileAccess.Write);
         await resultStream.CopyToAsync(fileStream);
     }
 }
