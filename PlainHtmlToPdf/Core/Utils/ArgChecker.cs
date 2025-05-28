@@ -4,7 +4,7 @@ namespace PlainHtmlToPdf.Core.Utils;
 /// <summary>
 /// Static class that contains argument-checking methods
 /// </summary>
-public static class ArgChecker
+public class ArgChecker
 {
     /// <summary>
     /// Validate given <see cref="condition"/> is true, otherwise throw exception.
@@ -12,7 +12,7 @@ public static class ArgChecker
     /// <typeparam name="TException">Exception type to throw.</typeparam>
     /// <param name="condition">Condition to assert.</param>
     /// <param name="message">Exception message in-case of assert failure.</param>
-    public static void AssertIsTrue<TException>(bool condition, string message) where TException : Exception, new()
+    public void AssertIsTrue<TException>(bool condition, string message) where TException : Exception, new()
     {
         // Checks whether the condition is false
         if (!condition)
@@ -42,7 +42,7 @@ public static class ArgChecker
     /// <param name="arg">argument to validate</param>
     /// <param name="argName">Name of the argument checked</param>
     /// <exception cref="System.ArgumentNullException">if <paramref name="arg"/> is <see cref="System.IntPtr.Zero"/></exception>
-    public static void AssertArgNotNull(IntPtr arg, string argName)
+    public void AssertArgNotNull(IntPtr arg, string argName)
     {
         if (arg == IntPtr.Zero)
         {
@@ -72,7 +72,7 @@ public static class ArgChecker
     /// <param name="argName">Name of the argument checked</param>
     /// <exception cref="System.ArgumentNullException">if <paramref name="arg"/> is Null</exception>
     /// <returns><see cref="arg"/> cast as <see cref="T"/></returns>
-    public static T AssertArgOfType<T>(object arg, string argName)
+    public T AssertArgOfType<T>(object arg, string argName)
     {
         AssertArgNotNull(arg, argName);
 
@@ -90,7 +90,7 @@ public static class ArgChecker
     /// <param name="argName">Name of the argument checked</param>
     /// <exception cref="System.ArgumentNullException">if <paramref name="arg"/> is Null or empty</exception>
     /// <exception cref="System.IO.FileNotFoundException">if <see cref="arg"/> file-path not exist</exception>
-    public static void AssertFileExist(string arg, string argName)
+    public void AssertFileExist(string arg, string argName)
     {
         AssertArgNotNullOrEmpty(arg, argName);
 

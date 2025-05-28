@@ -5,7 +5,7 @@ namespace PlainHtmlToPdf.Core.Parse;
 /// <summary>
 /// Collection of regular expressions used when parsing
 /// </summary>
-internal static class RegexParserUtils
+internal class RegexParserUtils
 {
     #region Fields and Consts
 
@@ -75,6 +75,7 @@ internal static class RegexParserUtils
     /// the regexes cache that is used by the parser so not to create regex each time
     /// </summary>
     private static readonly Dictionary<string, Regex> _regexes = new Dictionary<string, Regex>();
+    private static readonly object _regexesLock = new object();
 
     #endregion
 
@@ -175,8 +176,14 @@ internal static class RegexParserUtils
         Regex r;
         if (!_regexes.TryGetValue(regex, out r))
         {
-            r = new Regex(regex, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-            _regexes[regex] = r;
+            lock (_regexesLock)
+            {
+                if (!_regexes.TryGetValue(regex, out r))
+                {
+                    r = new Regex(regex, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+                    _regexes[regex] = r;
+                }
+            }
         }
         return r;
     }

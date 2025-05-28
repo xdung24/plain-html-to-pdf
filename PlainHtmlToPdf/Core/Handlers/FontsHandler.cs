@@ -30,6 +30,7 @@ internal sealed class FontsHandler
     /// cache of all the font used not to create same font again and again
     /// </summary>
     private readonly Dictionary<string, Dictionary<double, Dictionary<RFontStyle, RFont>>> _fontsCache = new Dictionary<string, Dictionary<double, Dictionary<RFontStyle, RFont>>>(StringComparer.InvariantCultureIgnoreCase);
+    private static readonly object _fontsCacheLock = new object();
 
     #endregion
 
@@ -107,8 +108,11 @@ internal sealed class FontsHandler
                     font = TryGetFont(mappedFamily, size, style);
                     if (font == null)
                     {
-                        font = CreateFont(mappedFamily, size, style);
-                        _fontsCache[mappedFamily][size][style] = font;
+                        lock (_fontsCacheLock)
+                        {
+                            font = CreateFont(mappedFamily, size, style);
+                            _fontsCache[mappedFamily][size][style] = font;
+                        }
                     }
                 }
             }
@@ -117,8 +121,10 @@ internal sealed class FontsHandler
             {
                 font = CreateFont(family, size, style);
             }
-
-            _fontsCache[family][size][style] = font;
+            lock (_fontsCacheLock)
+            {
+                _fontsCache[family][size][style] = font;
+            }
         }
         return font;
     }
@@ -154,8 +160,11 @@ internal sealed class FontsHandler
         }
         else
         {
-            _fontsCache[family] = new Dictionary<double, Dictionary<RFontStyle, RFont>>();
-            _fontsCache[family][size] = new Dictionary<RFontStyle, RFont>();
+            lock (_fontsCacheLock)
+            {
+                _fontsCache[family] = new Dictionary<double, Dictionary<RFontStyle, RFont>>();
+                _fontsCache[family][size] = new Dictionary<RFontStyle, RFont>();
+            }
         }
         return font;
     }

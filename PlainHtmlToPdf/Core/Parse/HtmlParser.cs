@@ -6,7 +6,7 @@ namespace PlainHtmlToPdf.Core.Parse;
 /// <summary>
 /// 
 /// </summary>
-internal static class HtmlParser
+internal class HtmlParser
 {
     /// <summary>
     /// Parses the source html to css boxes tree structure.

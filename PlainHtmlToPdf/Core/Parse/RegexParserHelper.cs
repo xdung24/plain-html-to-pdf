@@ -5,7 +5,7 @@ namespace PlainHtmlToPdf.Core.Parse;
 /// <summary>
 /// Collection of regular expressions used when parsing
 /// </summary>
-internal static class RegexParserHelper
+internal class RegexParserHelper
 {
     #region Fields and Consts
 
