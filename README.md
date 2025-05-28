@@ -13,7 +13,7 @@ PlainHtmlToPdf is a .NET library designed to generate PDFs from HTML content. It
 
 Generate PDF from HTML
 ```csharp
-var pdfGenerator = new PdfGenerator("Segoe UI");
+var pdfGenerator = new PdfGenerator();
 
 var pdfDocument = pdfGenerator.GeneratePdf(htmlContent, new PdfGenerateConfig
 {
