@@ -4,14 +4,16 @@ using PdfSharpCore.Pdf.IO;
 
 namespace PlainHtmlToPdf.Tests;
 
-public class PdfGenerator_Tests
+public class PdfGenerator_CustomFonts_Tests
 {
-    private static readonly bool _useSystemFonts = true; // Set to true to use system fonts
+    private static readonly bool _useSystemFonts = false; // Set to true to use system fonts
     private static bool _fontResolverInitialized = false;
 
     // Ensure the custom font resolver is set only once for all test cases
-    static PdfGenerator_Tests()
+    static PdfGenerator_CustomFonts_Tests()
     {
+        // If useSystemFonts is true, we will not use the custom font resolver
+        // and will rely on the default fonts installed in the system.
         if (_useSystemFonts)
         {
             return;
@@ -22,6 +24,14 @@ public class PdfGenerator_Tests
             GlobalFontSettings.FontResolver = new CustomFontResolver();
             _fontResolverInitialized = true;
         }
+        // Fallback to Times New Roman for Arial font, because Arial is not available in the default font resolver
+        PdfGenerator.AddFontFamilyMapping("Arial", "Times New Roman");
+        // Fallback to Consolas for Courier New font, because Courier New is not available in the default font resolver
+        PdfGenerator.AddFontFamilyMapping("Courier New", "Consolas");
+        // Fallback to Noto Sans for Liberation Sans font, because Liberation Sans is not available in the default font resolver
+        PdfGenerator.AddFontFamilyMapping("Liberation Sans", "Noto Sans");
+        // Fallback to Noto Serif font for Liberation Serif, because Liberation Serif is not available in the default font resolver
+        PdfGenerator.AddFontFamilyMapping("Liberation Serif", "Noto Serif");
     }
 
     [Theory]
@@ -30,21 +40,12 @@ public class PdfGenerator_Tests
     [InlineData("eform_fpt", "Consolas")]
     [InlineData("eform_fpt", "Noto Sans")]
     [InlineData("eform_fpt", "Noto Serif")]
+    [InlineData("eform_fpt", "Arial")]
+    [InlineData("eform_fpt", "Courier New")]
     [InlineData("eform_fpt", "Liberation Sans")]
     [InlineData("eform_fpt", "Liberation Serif")]
-    [InlineData("eform_fpt", "Liberation Mono")]
     public void GerneratePdfFromHtml(string testName, string fontName)
     {
-        // Add font family mappings for the specified font
-        PdfGenerator.AddFontFamilyMapping("Times New Roman", "Times New Roman");
-        PdfGenerator.AddFontFamilyMapping("Segoe UI", "Segoe UI");
-        PdfGenerator.AddFontFamilyMapping("Consolas", "Consolas");
-        PdfGenerator.AddFontFamilyMapping("Noto Sans", "Noto Sans");
-        PdfGenerator.AddFontFamilyMapping("Noto Serif", "Noto Serif");
-        PdfGenerator.AddFontFamilyMapping("Liberation Sans", "Liberation Sans");
-        PdfGenerator.AddFontFamilyMapping("Liberation Serif", "Liberation Serif");
-        PdfGenerator.AddFontFamilyMapping("Liberation Mono", "Liberation Mono");
-
         // Set the default font for PDF generation
         PdfGenerator.DefaultFont = fontName;
 
@@ -88,7 +89,7 @@ public class PdfGenerator_Tests
 
     private static string ReadFileToStream(string fileName)
     {
-        var sourceDir = Path.GetDirectoryName(typeof(PdfGenerator_Tests).Assembly.Location);
+        var sourceDir = Path.GetDirectoryName(typeof(PdfGenerator_CustomFonts_Tests).Assembly.Location);
         var projectRoot = Path.GetFullPath(Path.Combine(sourceDir, @"../../../../"));
         var filePath = Path.Combine(projectRoot, "PlainHtmlToPdf.Tests", "TestData", fileName);
 
