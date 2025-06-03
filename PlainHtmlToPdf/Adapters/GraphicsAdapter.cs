@@ -1,7 +1,7 @@
 using PlainHtmlToPdf.Adapters.Entities;
 using PlainHtmlToPdf.Core.Utils;
 using PlainHtmlToPdf.Utilities;
-using PdfSharpCore.Drawing;
+using PdfSharp.Drawing;
 
 namespace PlainHtmlToPdf.Adapters;
 

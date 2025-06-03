@@ -1,6 +1,6 @@
-﻿using PdfSharpCore;
-using PdfSharpCore.Fonts;
-using PdfSharpCore.Pdf.IO;
+﻿using PdfSharp;
+using PdfSharp.Fonts;
+using PdfSharp.Pdf.IO;
 
 namespace PlainHtmlToPdf.Tests;
 

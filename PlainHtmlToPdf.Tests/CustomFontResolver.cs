@@ -1,4 +1,4 @@
-using PdfSharpCore.Fonts;
+using PdfSharp.Fonts;
 namespace PlainHtmlToPdf.Tests;
 
 public class CustomFontResolver : IFontResolver

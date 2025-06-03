@@ -1,5 +1,5 @@
-﻿using PdfSharpCore;
-using PdfSharpCore.Drawing;
+﻿using PdfSharp;
+using PdfSharp.Drawing;
 
 namespace PlainHtmlToPdf;
 

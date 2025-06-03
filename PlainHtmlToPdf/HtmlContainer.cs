@@ -4,7 +4,7 @@ using PlainHtmlToPdf.Core;
 using PlainHtmlToPdf.Core.Entities;
 using PlainHtmlToPdf.Core.Utils;
 using PlainHtmlToPdf.Utilities;
-using PdfSharpCore.Drawing;
+using PdfSharp.Drawing;
 
 namespace PlainHtmlToPdf;
 

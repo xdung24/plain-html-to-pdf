@@ -2,9 +2,9 @@
 using PlainHtmlToPdf.Core;
 using PlainHtmlToPdf.Core.Entities;
 using PlainHtmlToPdf.Core.Utils;
-using PdfSharpCore;
-using PdfSharpCore.Drawing;
-using PdfSharpCore.Pdf;
+using PdfSharp;
+using PdfSharp.Drawing;
+using PdfSharp.Pdf;
 
 namespace PlainHtmlToPdf;
 

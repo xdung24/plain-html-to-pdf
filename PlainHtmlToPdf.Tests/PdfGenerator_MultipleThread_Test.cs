@@ -1,5 +1,5 @@
-using PdfSharpCore;
-using PdfSharpCore.Pdf;
+using PdfSharp;
+using PdfSharp.Pdf;
 
 namespace PlainHtmlToPdf.Tests;
 

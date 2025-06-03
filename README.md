@@ -1,13 +1,13 @@
 # PlainHtmlToPdf
 
-PlainHtmlToPdf is a .NET library designed to generate PDFs from HTML content. It leverages the power of PdfSharpCore to create high-quality PDF documents with support for custom fonts, CSS styling, and more.
+PlainHtmlToPdf is a .NET library designed to generate PDFs from HTML content. It leverages the power of PdfSharp to create high-quality PDF documents with support for custom fonts, CSS styling, and more.
 
 ## Features
 
 - Generate PDFs from HTML content.
 - Support for custom font mappings.
 - CSS DOM tree generation for styling.
-- Integration with PdfSharpCore for PDF rendering.
+- Integration with PdfSharp for PDF rendering.
 
 ## Usage
 
@@ -17,7 +17,7 @@ var pdfGenerator = new PdfGenerator();
 
 var pdfDocument = pdfGenerator.GeneratePdf(htmlContent, new PdfGenerateConfig
 {
-    PageSize = PdfSharpCore.PageSize.A4,
+    PageSize = PdfSharp.PageSize.A4,
     Margin = 20
 });
 
@@ -34,7 +34,7 @@ using (var stream = new MemoryStream())
 {
     var pdf = pdfGenerator.GeneratePdf(htmlContent, new PdfGenerateConfig
     {
-        PageSize = PdfSharpCore.PageSize.A4,
+        PageSize = PdfSharp.PageSize.A4,
         Margin = 20
     });
 
@@ -53,7 +53,7 @@ using (var stream = new MemoryStream())
 
 **HtmlRenderer:** https://archive.codeplex.com/?p=htmlrenderer
 
-**PdfSharpCore:** https://github.com/ststeiger/PdfSharpCore
+**PdfSharp:** https://github.com/ststeiger/PdfSharp
 
 
 ## License

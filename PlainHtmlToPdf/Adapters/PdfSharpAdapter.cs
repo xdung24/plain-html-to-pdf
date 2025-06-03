@@ -2,8 +2,8 @@
 using System.Text;
 using PlainHtmlToPdf.Adapters.Entities;
 using PlainHtmlToPdf.Utilities;
-using PdfSharpCore.Drawing;
-using PdfSharpCore.Pdf;
+using PdfSharp.Drawing;
+using PdfSharp.Pdf;
 
 namespace PlainHtmlToPdf.Adapters;
 
@@ -97,12 +97,12 @@ internal sealed class PdfSharpAdapter : RAdapter
 
     protected override RImage ImageFromStreamInt(Stream memoryStream)
     {
-        return new ImageAdapter(XImage.FromStream(() => memoryStream));
+        return new ImageAdapter(XImage.FromStream(memoryStream));
     }
 
     protected override RFont CreateFontInt(string family, double size, RFontStyle style)
     {
-        var fontStyle = (XFontStyle)((int)style);
+        var fontStyle = (XFontStyleEx)((int)style);
         var fontOption = new XPdfFontOptions(PdfFontEncoding.Unicode);
         var xFont = new XFont(family, size, fontStyle, fontOption);
         return new FontAdapter(xFont);
@@ -110,7 +110,7 @@ internal sealed class PdfSharpAdapter : RAdapter
 
     protected override RFont CreateFontInt(RFontFamily family, double size, RFontStyle style)
     {
-        var fontStyle = (XFontStyle)((int)style);
+        var fontStyle = (XFontStyleEx)((int)style);
         var fontOption = new XPdfFontOptions(PdfFontEncoding.Unicode);
         var xFont = new XFont(((FontFamilyAdapter)family).FontFamily.Name, size, fontStyle, fontOption);
         return new FontAdapter(xFont);
