@@ -304,7 +304,7 @@ public class HtmlContainer : IDisposable
     public XRect? GetElementRectangle(string elementId)
     {
         var r = _htmlContainerInt.GetElementRectangle(elementId);
-        return r.HasValue ? Utils.Convert(r.Value) : (XRect?)null;
+        return r.HasValue ? Utils.Convert(r.Value) : null;
     }
 
     /// <summary>

@@ -3,7 +3,9 @@ namespace PlainHtmlToPdf.Tests;
 
 public class CustomFontResolver : IFontResolver
 {
+#pragma warning disable CA1822 // Mark members as static
     public string DefaultFontName => "Times New Roman";
+#pragma warning restore CA1822 // Mark members as static
 
     public byte[]? GetFont(string faceName)
     {
@@ -125,6 +127,7 @@ public class CustomFontResolver : IFontResolver
             return new FontResolverInfo("Noto Serif#Regular");
         }
         // fallback to default
-        return PlatformFontResolver.ResolveTypeface(familyName, isBold, isItalic);
+        return PlatformFontResolver.ResolveTypeface(familyName, isBold, isItalic) 
+            ?? new FontResolverInfo(DefaultFontName);
     }
 }

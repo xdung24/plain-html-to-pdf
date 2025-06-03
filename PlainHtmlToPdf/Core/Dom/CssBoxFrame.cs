@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using System.Text;
-using System.Threading;
 using PlainHtmlToPdf.Adapters;
 using PlainHtmlToPdf.Adapters.Entities;
 using PlainHtmlToPdf.Core.Entities;
@@ -72,18 +71,18 @@ internal class CssBoxFrame : CssBox
             if (uri.Host.IndexOf("youtube.com", StringComparison.InvariantCultureIgnoreCase) > -1)
             {
                 _isVideo = true;
-                LoadYoutubeDataAsync(uri);
+                loadYoutubeDataAsync(uri);
             }
             else if (uri.Host.IndexOf("vimeo.com", StringComparison.InvariantCultureIgnoreCase) > -1)
             {
                 _isVideo = true;
-                LoadVimeoDataAsync(uri);
+                loadVimeoDataAsync(uri);
             }
         }
 
         if (!_isVideo)
         {
-            SetErrorBorder();
+            setErrorBorder();
         }
     }
 
@@ -127,7 +126,7 @@ internal class CssBoxFrame : CssBox
     /// <summary>
     /// Load YouTube video data (title, image, link) by calling YouTube API.
     /// </summary>
-    private void LoadYoutubeDataAsync(Uri uri)
+    private void loadYoutubeDataAsync(Uri uri)
     {
         ThreadPool.QueueUserWorkItem(state =>
         {
@@ -137,7 +136,7 @@ internal class CssBoxFrame : CssBox
 
                 var client = new WebClient();
                 client.Encoding = Encoding.UTF8;
-                client.DownloadStringCompleted += OnDownloadYoutubeApiCompleted;
+                client.DownloadStringCompleted += onDownloadYoutubeApiCompleted;
                 client.DownloadStringAsync(apiUri);
             }
             catch (Exception ex)
@@ -151,7 +150,7 @@ internal class CssBoxFrame : CssBox
     /// <summary>
     /// Parse YouTube API response to get video data (title, image, link).
     /// </summary>
-    private void OnDownloadYoutubeApiCompleted(object sender, DownloadStringCompletedEventArgs e)
+    private void onDownloadYoutubeApiCompleted(object sender, DownloadStringCompletedEventArgs e)
     {
         try
         {
@@ -248,7 +247,7 @@ internal class CssBoxFrame : CssBox
                 }
                 else
                 {
-                    HandleDataLoadFailure(e.Error, "YouTube");
+                    handleDataLoadFailure(e.Error, "YouTube");
                 }
             }
         }
@@ -257,13 +256,13 @@ internal class CssBoxFrame : CssBox
             HtmlContainer.ReportError(HtmlRenderErrorType.Iframe, "Failed to parse YouTube video response", ex);
         }
 
-        HandlePostApiCall(sender);
+        handlePostApiCall(sender);
     }
 
     /// <summary>
     /// Load Vimeo video data (title, image, link) by calling Vimeo API.
     /// </summary>
-    private void LoadVimeoDataAsync(Uri uri)
+    private void loadVimeoDataAsync(Uri uri)
     {
         ThreadPool.QueueUserWorkItem(state =>
         {
@@ -273,13 +272,13 @@ internal class CssBoxFrame : CssBox
 
                 var client = new WebClient();
                 client.Encoding = Encoding.UTF8;
-                client.DownloadStringCompleted += OnDownloadVimeoApiCompleted;
+                client.DownloadStringCompleted += onDownloadVimeoApiCompleted;
                 client.DownloadStringAsync(apiUri);
             }
             catch (Exception ex)
             {
                 _imageLoadingComplete = true;
-                SetErrorBorder();
+                setErrorBorder();
                 HtmlContainer.ReportError(HtmlRenderErrorType.Iframe, "Failed to get vimeo video data: " + uri, ex);
                 HtmlContainer.RequestRefresh(false);
             }
@@ -289,7 +288,7 @@ internal class CssBoxFrame : CssBox
     /// <summary>
     /// Parse Vimeo API response to get video data (title, image, link).
     /// </summary>
-    private void OnDownloadVimeoApiCompleted(object sender, DownloadStringCompletedEventArgs e)
+    private void onDownloadVimeoApiCompleted(object sender, DownloadStringCompletedEventArgs e)
     {
         try
         {
@@ -369,7 +368,7 @@ internal class CssBoxFrame : CssBox
                 }
                 else
                 {
-                    HandleDataLoadFailure(e.Error, "Vimeo");
+                    handleDataLoadFailure(e.Error, "Vimeo");
                 }
             }
         }
@@ -378,7 +377,7 @@ internal class CssBoxFrame : CssBox
             HtmlContainer.ReportError(HtmlRenderErrorType.Iframe, "Failed to parse Vimeo video response", ex);
         }
 
-        HandlePostApiCall(sender);
+        handlePostApiCall(sender);
     }
 
     /// <summary>
@@ -386,7 +385,7 @@ internal class CssBoxFrame : CssBox
     /// </summary>
     /// <param name="ex">the exception that occurred during data load web request</param>
     /// <param name="source">the name of the video source (YouTube/Vimeo/Etc.)</param>
-    private void HandleDataLoadFailure(Exception ex, string source)
+    private void handleDataLoadFailure(Exception ex, string source)
     {
         var webError = ex as WebException;
         var webResponse = webError != null ? webError.Response as HttpWebResponse : null;
@@ -403,22 +402,22 @@ internal class CssBoxFrame : CssBox
     /// <summary>
     /// Create image handler for downloading video image if found and release the WebClient instance used for API call.
     /// </summary>
-    private void HandlePostApiCall(object sender)
+    private void handlePostApiCall(object sender)
     {
         try
         {
             if (_videoImageUrl == null)
             {
                 _imageLoadingComplete = true;
-                SetErrorBorder();
+                setErrorBorder();
             }
 
             var webClient = (WebClient)sender;
-            webClient.DownloadStringCompleted -= OnDownloadYoutubeApiCompleted;
-            webClient.DownloadStringCompleted -= OnDownloadVimeoApiCompleted;
+            webClient.DownloadStringCompleted -= onDownloadYoutubeApiCompleted;
+            webClient.DownloadStringCompleted -= onDownloadVimeoApiCompleted;
             webClient.Dispose();
 
-            HtmlContainer.RequestRefresh(IsLayoutRequired());
+            HtmlContainer.RequestRefresh(isLayoutRequired());
         }
         catch
         { }
@@ -432,7 +431,7 @@ internal class CssBoxFrame : CssBox
     {
         if (_videoImageUrl != null && _imageLoadHandler == null)
         {
-            _imageLoadHandler = new ImageLoadHandler(HtmlContainer, OnLoadImageComplete);
+            _imageLoadHandler = new ImageLoadHandler(HtmlContainer, onLoadImageComplete);
             _imageLoadHandler.LoadImage(_videoImageUrl, HtmlTag != null ? HtmlTag.Attributes : null);
         }
 
@@ -456,11 +455,11 @@ internal class CssBoxFrame : CssBox
         tmpRect.Y = Math.Floor(tmpRect.Y);
         var rect = tmpRect;
 
-        DrawImage(g, offset, rect);
+        drawImage(g, offset, rect);
 
-        DrawTitle(g, rect);
+        drawTitle(g, rect);
 
-        DrawPlay(g, rect);
+        drawPlay(g, rect);
 
         if (clipped)
             g.PopClip();
@@ -469,7 +468,7 @@ internal class CssBoxFrame : CssBox
     /// <summary>
     /// Draw video image over the iframe if found.
     /// </summary>
-    private void DrawImage(RGraphics g, RPoint offset, RRect rect)
+    private void drawImage(RGraphics g, RPoint offset, RRect rect)
     {
         if (_imageWord.Image != null)
         {
@@ -499,7 +498,7 @@ internal class CssBoxFrame : CssBox
     /// <summary>
     /// Draw video title on top of the iframe if found.
     /// </summary>
-    private void DrawTitle(RGraphics g, RRect rect)
+    private void drawTitle(RGraphics g, RRect rect)
     {
         if (_videoTitle != null && _imageWord.Width > 40 && _imageWord.Height > 40)
         {
@@ -514,7 +513,7 @@ internal class CssBoxFrame : CssBox
     /// <summary>
     /// Draw play over the iframe if we found link url.
     /// </summary>
-    private void DrawPlay(RGraphics g, RRect rect)
+    private void drawPlay(RGraphics g, RRect rect)
     {
         if (_isVideo && _imageWord.Width > 70 && _imageWord.Height > 50)
         {
@@ -554,7 +553,7 @@ internal class CssBoxFrame : CssBox
     /// <summary>
     /// Set error image border on the image box.
     /// </summary>
-    private void SetErrorBorder()
+    private void setErrorBorder()
     {
         SetAllBorders(CssConstants.Solid, "2px", "#A0A0A0");
         BorderRightColor = BorderBottomColor = "#E3E3E3";
@@ -566,7 +565,7 @@ internal class CssBoxFrame : CssBox
     /// <param name="image">the image loaded or null if failed</param>
     /// <param name="rectangle">the source rectangle to draw in the image (empty - draw everything)</param>
     /// <param name="async">is the callback was called async to load image call</param>
-    private void OnLoadImageComplete(RImage image, RRect rectangle, bool async)
+    private void onLoadImageComplete(RImage image, RRect rectangle, bool async)
     {
         _imageWord.Image = image;
         _imageWord.ImageRectangle = rectangle;
@@ -575,16 +574,16 @@ internal class CssBoxFrame : CssBox
 
         if (_imageLoadingComplete && image == null)
         {
-            SetErrorBorder();
+            setErrorBorder();
         }
 
         if (async)
         {
-            HtmlContainer.RequestRefresh(IsLayoutRequired());
+            HtmlContainer.RequestRefresh(isLayoutRequired());
         }
     }
 
-    private bool IsLayoutRequired()
+    private bool isLayoutRequired()
     {
         var width = new CssLength(Width);
         var height = new CssLength(Height);

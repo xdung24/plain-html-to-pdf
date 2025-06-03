@@ -30,7 +30,7 @@ internal class CssBox : CssBoxProperties, IDisposable
     /// <summary>
     /// the root container for the hierarchy
     /// </summary>
-    protected HtmlContainerInt _htmlContainer;
+    private HtmlContainerInt _htmlContainer;
 
     /// <summary>
     /// the html tag that is associated with this css box, null if anonymous box
@@ -56,7 +56,7 @@ internal class CssBox : CssBoxProperties, IDisposable
     /// </remarks>
     internal bool _tableFixed;
 
-    protected bool _wordsSizeMeasured;
+    internal bool _wordsSizeMeasured;
     private CssBox _listItemBox;
     private CssLineBox _firstHostingLineBox;
     private CssLineBox _lastHostingLineBox;
@@ -219,7 +219,7 @@ internal class CssBox : CssBoxProperties, IDisposable
 
             //Comment this following line to treat always superior box as block
             if (box == null)
-                throw new Exception("There's no containing block on the chain");
+                throw new InvalidOperationException("There's no containing block on the chain");
 
             return box;
         }
@@ -500,7 +500,7 @@ internal class CssBox : CssBoxProperties, IDisposable
     {
         int index = _parentBox.Boxes.IndexOf(before);
         if (index < 0)
-            throw new Exception("before box doesn't exist on parent");
+            throw new InvalidOperationException("before box doesn't exist on parent");
 
         _parentBox.Boxes.Remove(this);
         _parentBox.Boxes.Insert(index, this);
@@ -664,8 +664,8 @@ internal class CssBox : CssBoxProperties, IDisposable
                     {
                         childBox.PerformLayout(g);
                     }
-                    ActualRight = CalculateActualRight();
-                    ActualBottom = MarginBottomCollapse();
+                    ActualRight = calculateActualRight();
+                    ActualBottom = marginBottomCollapse();
                 }
             }
         }
@@ -681,11 +681,11 @@ internal class CssBox : CssBoxProperties, IDisposable
         }
         ActualBottom = Math.Max(ActualBottom, Location.Y + ActualHeight);
 
-        CreateListItemBox(g);
+        createListItemBox(g);
 
         if (!IsFixed)
         {
-            var actualWidth = Math.Max(GetMinimumWidth() + GetWidthMarginDeep(this), Size.Width < 90999 ? ActualRight - HtmlContainer.Root.Location.X : 0);
+            var actualWidth = Math.Max(GetMinimumWidth() + getWidthMarginDeep(this), Size.Width < 90999 ? ActualRight - HtmlContainer.Root.Location.X : 0);
             HtmlContainer.ActualSize = CommonUtils.Max(HtmlContainer.ActualSize, new RSize(actualWidth, ActualBottom - HtmlContainer.Root.Location.Y));
         }
     }
@@ -700,7 +700,7 @@ internal class CssBox : CssBoxProperties, IDisposable
         {
             if (BackgroundImage != CssConstants.None && _imageLoadHandler == null)
             {
-                _imageLoadHandler = new ImageLoadHandler(HtmlContainer, OnImageLoadComplete);
+                _imageLoadHandler = new ImageLoadHandler(HtmlContainer, onImageLoadComplete);
                 _imageLoadHandler.LoadImage(BackgroundImage, HtmlTag != null ? HtmlTag.Attributes : null);
             }
 
@@ -732,7 +732,7 @@ internal class CssBox : CssBoxProperties, IDisposable
     /// Gets the index of the box to be used on a (ordered) list
     /// </summary>
     /// <returns></returns>
-    private int GetIndexForList()
+    private int getIndexForList()
     {
         bool reversed = !string.IsNullOrEmpty(ParentBox.GetAttribute("reversed"));
         int index;
@@ -769,7 +769,7 @@ internal class CssBox : CssBoxProperties, IDisposable
     /// Creates the <see cref="_listItemBox"/>
     /// </summary>
     /// <param name="g"></param>
-    private void CreateListItemBox(RGraphics g)
+    private void createListItemBox(RGraphics g)
     {
         if (Display == CssConstants.ListItem && ListStyleType != CssConstants.None)
         {
@@ -794,15 +794,15 @@ internal class CssBox : CssBoxProperties, IDisposable
                 }
                 else if (ListStyleType.Equals(CssConstants.Decimal, StringComparison.InvariantCultureIgnoreCase))
                 {
-                    _listItemBox.Text = new SubString(GetIndexForList().ToString(CultureInfo.InvariantCulture) + ".");
+                    _listItemBox.Text = new SubString(getIndexForList().ToString(CultureInfo.InvariantCulture) + ".");
                 }
                 else if (ListStyleType.Equals(CssConstants.DecimalLeadingZero, StringComparison.InvariantCultureIgnoreCase))
                 {
-                    _listItemBox.Text = new SubString(GetIndexForList().ToString("00", CultureInfo.InvariantCulture) + ".");
+                    _listItemBox.Text = new SubString(getIndexForList().ToString("00", CultureInfo.InvariantCulture) + ".");
                 }
                 else
                 {
-                    _listItemBox.Text = new SubString(CommonUtils.ConvertToAlphaNumber(GetIndexForList(), ListStyleType) + ".");
+                    _listItemBox.Text = new SubString(CommonUtils.ConvertToAlphaNumber(getIndexForList(), ListStyleType) + ".");
                 }
 
                 _listItemBox.ParseToWords();
@@ -821,7 +821,7 @@ internal class CssBox : CssBoxProperties, IDisposable
     /// <param name="b"></param>
     /// <param name="line"> </param>
     /// <returns></returns>
-    internal CssRect FirstWordOccourence(CssBox b, CssLineBox line)
+    internal static CssRect FirstWordOccourence(CssBox b, CssLineBox line)
     {
         if (b.Words.Count == 0 && b.Boxes.Count == 0)
         {
@@ -843,7 +843,7 @@ internal class CssBox : CssBoxProperties, IDisposable
         {
             foreach (CssBox bb in b.Boxes)
             {
-                CssRect w = FirstWordOccourence(bb, line);
+                CssRect w = CssBox.FirstWordOccourence(bb, line);
 
                 if (w != null)
                 {
@@ -886,7 +886,7 @@ internal class CssBox : CssBoxProperties, IDisposable
     {
         double maxWidth = 0;
         CssRect maxWidthWord = null;
-        GetMinimumWidth_LongestWord(this, ref maxWidth, ref maxWidthWord);
+        getMinimumWidth_LongestWord(this, ref maxWidth, ref maxWidthWord);
 
         double padding = 0f;
         if (maxWidthWord != null)
@@ -909,7 +909,7 @@ internal class CssBox : CssBoxProperties, IDisposable
     /// <param name="maxWidth"> </param>
     /// <param name="maxWidthWord"> </param>
     /// <returns></returns>
-    private static void GetMinimumWidth_LongestWord(CssBox box, ref double maxWidth, ref CssRect maxWidthWord)
+    private static void getMinimumWidth_LongestWord(CssBox box, ref double maxWidth, ref CssRect maxWidthWord)
     {
         if (box.Words.Count > 0)
         {
@@ -925,7 +925,7 @@ internal class CssBox : CssBoxProperties, IDisposable
         else
         {
             foreach (CssBox childBox in box.Boxes)
-                GetMinimumWidth_LongestWord(childBox, ref maxWidth, ref maxWidthWord);
+                getMinimumWidth_LongestWord(childBox, ref maxWidth, ref maxWidthWord);
         }
     }
 
@@ -934,7 +934,7 @@ internal class CssBox : CssBoxProperties, IDisposable
     /// </summary>
     /// <param name="box">the box to start calculation from.</param>
     /// <returns>the total margin</returns>
-    private static double GetWidthMarginDeep(CssBox box)
+    private static double getWidthMarginDeep(CssBox box)
     {
         double sum = 0f;
         if (box.Size.Width > 90999 || (box.ParentBox != null && box.ParentBox.Size.Width > 90999))
@@ -954,7 +954,7 @@ internal class CssBox : CssBoxProperties, IDisposable
     /// <param name="startBox"></param>
     /// <param name="currentMaxBottom"></param>
     /// <returns></returns>
-    internal double GetMaximumBottom(CssBox startBox, double currentMaxBottom)
+    internal static double GetMaximumBottom(CssBox startBox, double currentMaxBottom)
     {
         foreach (var line in startBox.Rectangles.Keys)
         {
@@ -963,7 +963,7 @@ internal class CssBox : CssBoxProperties, IDisposable
 
         foreach (var b in startBox.Boxes)
         {
-            currentMaxBottom = Math.Max(currentMaxBottom, GetMaximumBottom(b, currentMaxBottom));
+            currentMaxBottom = Math.Max(currentMaxBottom, CssBox.GetMaximumBottom(b, currentMaxBottom));
         }
 
         return currentMaxBottom;
@@ -980,7 +980,7 @@ internal class CssBox : CssBoxProperties, IDisposable
         double maxSum = 0f;
         double paddingSum = 0f;
         double marginSum = 0f;
-        GetMinMaxSumWords(this, ref min, ref maxSum, ref paddingSum, ref marginSum);
+        getMinMaxSumWords(this, ref min, ref maxSum, ref paddingSum, ref marginSum);
 
         maxWidth = paddingSum + maxSum;
         minWidth = paddingSum + (min < 90999 ? min : 0);
@@ -995,7 +995,7 @@ internal class CssBox : CssBoxProperties, IDisposable
     /// <param name="paddingSum">the total amount of padding the content has </param>
     /// <param name="marginSum"></param>
     /// <returns></returns>
-    private static void GetMinMaxSumWords(CssBox box, ref double min, ref double maxSum, ref double paddingSum, ref double marginSum)
+    private static void getMinMaxSumWords(CssBox box, ref double min, ref double maxSum, ref double paddingSum, ref double marginSum)
     {
         double? oldSum = null;
 
@@ -1036,7 +1036,7 @@ internal class CssBox : CssBoxProperties, IDisposable
                 marginSum += childBox.ActualMarginLeft + childBox.ActualMarginRight;
 
                 //maxSum += childBox.ActualMarginLeft + childBox.ActualMarginRight;
-                GetMinMaxSumWords(childBox, ref min, ref maxSum, ref paddingSum, ref marginSum);
+                getMinMaxSumWords(childBox, ref min, ref maxSum, ref paddingSum, ref marginSum);
 
                 marginSum -= childBox.ActualMarginLeft + childBox.ActualMarginRight;
             }
@@ -1129,7 +1129,7 @@ internal class CssBox : CssBoxProperties, IDisposable
     /// Calculate the actual right of the box by the actual right of the child boxes if this box actual right is not set.
     /// </summary>
     /// <returns>the calculated actual right value</returns>
-    private double CalculateActualRight()
+    private double calculateActualRight()
     {
         if (ActualRight > 90999)
         {
@@ -1150,7 +1150,7 @@ internal class CssBox : CssBoxProperties, IDisposable
     /// Gets the result of collapsing the vertical margins of the two boxes
     /// </summary>
     /// <returns>Resulting bottom margin</returns>
-    private double MarginBottomCollapse()
+    private double marginBottomCollapse()
     {
         double margin = 0;
         if (ParentBox != null && ParentBox.Boxes.IndexOf(this) == ParentBox.Boxes.Count - 1 && _parentBox.ActualMarginBottom < 0.1)
@@ -1217,21 +1217,21 @@ internal class CssBox : CssBoxProperties, IDisposable
                 var actualRect = rects[i];
                 actualRect.Offset(offset);
 
-                if (IsRectVisible(actualRect, clip))
+                if (CssBox.isRectVisible(actualRect, clip))
                 {
                     PaintBackground(g, actualRect, i == 0, i == rects.Length - 1);
                     BordersDrawHandler.DrawBoxBorders(g, this, actualRect, i == 0, i == rects.Length - 1);
                 }
             }
 
-            PaintWords(g, offset);
+            paintWords(g, offset);
 
             for (int i = 0; i < rects.Length; i++)
             {
                 var actualRect = rects[i];
                 actualRect.Offset(offset);
 
-                if (IsRectVisible(actualRect, clip))
+                if (CssBox.isRectVisible(actualRect, clip))
                 {
                     PaintDecoration(g, actualRect, i == 0, i == rects.Length - 1);
                 }
@@ -1264,7 +1264,7 @@ internal class CssBox : CssBoxProperties, IDisposable
         }
     }
 
-    private bool IsRectVisible(RRect rect, RRect clip)
+    private static bool isRectVisible(RRect rect, RRect clip)
     {
         rect.X -= 2;
         rect.Width += 2;
@@ -1310,7 +1310,7 @@ internal class CssBox : CssBoxProperties, IDisposable
                     roundrect = RenderUtils.GetRoundRect(g, rect, ActualCornerNw, ActualCornerNe, ActualCornerSe, ActualCornerSw);
                 }
 
-                Object prevMode = null;
+                object prevMode = null;
                 if (HtmlContainer != null && !HtmlContainer.AvoidGeometryAntialias && IsRounded)
                 {
                     prevMode = g.SetAntiAliasSmoothingMode();
@@ -1344,7 +1344,7 @@ internal class CssBox : CssBoxProperties, IDisposable
     /// </summary>
     /// <param name="g">the device to draw into</param>
     /// <param name="offset">the current scroll offset to offset the words</param>
-    private void PaintWords(RGraphics g, RPoint offset)
+    private void paintWords(RGraphics g, RPoint offset)
     {
         if (Width.Length > 0)
         {
@@ -1467,7 +1467,7 @@ internal class CssBox : CssBoxProperties, IDisposable
     /// <param name="image">the image loaded or null if failed</param>
     /// <param name="rectangle">the source rectangle to draw in the image (empty - draw everything)</param>
     /// <param name="async">is the callback was called async to load image call</param>
-    private void OnImageLoadComplete(RImage image, RRect rectangle, bool async)
+    private void onImageLoadComplete(RImage image, RRect rectangle, bool async)
     {
         if (image != null && async)
             HtmlContainer.RequestRefresh(false);

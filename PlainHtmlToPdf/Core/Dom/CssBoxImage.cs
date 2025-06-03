@@ -59,7 +59,7 @@ internal class CssBoxImage : CssBox
         // load image if it is in visible rectangle
         if (_imageLoadHandler == null)
         {
-            _imageLoadHandler = new ImageLoadHandler(HtmlContainer, OnLoadImageComplete);
+            _imageLoadHandler = new ImageLoadHandler(HtmlContainer, onLoadImageComplete);
             _imageLoadHandler.LoadImage(GetAttribute("src"), HtmlTag != null ? HtmlTag.Attributes : null);
         }
 
@@ -128,7 +128,7 @@ internal class CssBoxImage : CssBox
         {
             if (_imageLoadHandler == null && (HtmlContainer.AvoidAsyncImagesLoading || HtmlContainer.AvoidImagesLateLoading))
             {
-                _imageLoadHandler = new ImageLoadHandler(HtmlContainer, OnLoadImageComplete);
+                _imageLoadHandler = new ImageLoadHandler(HtmlContainer, onLoadImageComplete);
 
                 if (this.Content != null && this.Content != CssConstants.Normal)
                     _imageLoadHandler.LoadImage(this.Content, HtmlTag != null ? HtmlTag.Attributes : null);
@@ -159,7 +159,7 @@ internal class CssBoxImage : CssBox
     /// <summary>
     /// Set error image border on the image box.
     /// </summary>
-    private void SetErrorBorder()
+    private void setErrorBorder()
     {
         SetAllBorders(CssConstants.Solid, "2px", "#A0A0A0");
         BorderRightColor = BorderBottomColor = "#E3E3E3";
@@ -171,7 +171,7 @@ internal class CssBoxImage : CssBox
     /// <param name="image">the image loaded or null if failed</param>
     /// <param name="rectangle">the source rectangle to draw in the image (empty - draw everything)</param>
     /// <param name="async">is the callback was called async to load image call</param>
-    private void OnLoadImageComplete(RImage image, RRect rectangle, bool async)
+    private void onLoadImageComplete(RImage image, RRect rectangle, bool async)
     {
         _imageWord.Image = image;
         _imageWord.ImageRectangle = rectangle;
@@ -180,7 +180,7 @@ internal class CssBoxImage : CssBox
 
         if (_imageLoadingComplete && image == null)
         {
-            SetErrorBorder();
+            setErrorBorder();
         }
 
         if (!HtmlContainer.AvoidImagesLateLoading || async)

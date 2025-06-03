@@ -4,7 +4,7 @@ namespace PlainHtmlToPdf.Tests;
 
 public class PdfGenerator_ExternalResources_Tests : TestBase
 {
-    protected static PdfGenerator _pdfGenerator = new PdfGenerator();
+    private static PdfGenerator _pdfGenerator = new PdfGenerator();
 
     public PdfGenerator_ExternalResources_Tests()
     {

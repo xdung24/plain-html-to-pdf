@@ -12,7 +12,7 @@ public class ArgChecker
     /// <typeparam name="TException">Exception type to throw.</typeparam>
     /// <param name="condition">Condition to assert.</param>
     /// <param name="message">Exception message in-case of assert failure.</param>
-    public void AssertIsTrue<TException>(bool condition, string message) where TException : Exception, new()
+    public static void AssertIsTrue<TException>(bool condition, string message) where TException : Exception, new()
     {
         // Checks whether the condition is false
         if (!condition)
@@ -27,7 +27,7 @@ public class ArgChecker
     /// </summary>
     /// <param name="arg">argument to validate</param>
     /// <param name="argName">Name of the argument checked</param>
-    /// <exception cref="System.ArgumentNullException">if <paramref name="arg"/> is Null</exception>
+    /// <exception cref="ArgumentNullException">if <paramref name="arg"/> is Null</exception>
     public static void AssertArgNotNull(object arg, string argName)
     {
         if (arg == null)
@@ -37,12 +37,12 @@ public class ArgChecker
     }
 
     /// <summary>
-    /// Validate given argument isn't <see cref="System.IntPtr.Zero"/>.
+    /// Validate given argument isn't <see cref="IntPtr.Zero"/>.
     /// </summary>
     /// <param name="arg">argument to validate</param>
     /// <param name="argName">Name of the argument checked</param>
-    /// <exception cref="System.ArgumentNullException">if <paramref name="arg"/> is <see cref="System.IntPtr.Zero"/></exception>
-    public void AssertArgNotNull(IntPtr arg, string argName)
+    /// <exception cref="ArgumentNullException">if <paramref name="arg"/> is <see cref="IntPtr.Zero"/></exception>
+    public static void AssertArgNotNull(IntPtr arg, string argName)
     {
         if (arg == IntPtr.Zero)
         {
@@ -55,7 +55,7 @@ public class ArgChecker
     /// </summary>
     /// <param name="arg">argument to validate</param>
     /// <param name="argName">Name of the argument checked</param>
-    /// <exception cref="System.ArgumentNullException">if <paramref name="arg"/> is Null or empty</exception>
+    /// <exception cref="ArgumentNullException">if <paramref name="arg"/> is Null or empty</exception>
     public static void AssertArgNotNullOrEmpty(string arg, string argName)
     {
         if (string.IsNullOrEmpty(arg))
@@ -70,9 +70,9 @@ public class ArgChecker
     /// <typeparam name="T">Type expected of <see cref="arg"/></typeparam>
     /// <param name="arg">argument to validate</param>
     /// <param name="argName">Name of the argument checked</param>
-    /// <exception cref="System.ArgumentNullException">if <paramref name="arg"/> is Null</exception>
+    /// <exception cref="ArgumentNullException">if <paramref name="arg"/> is Null</exception>
     /// <returns><see cref="arg"/> cast as <see cref="T"/></returns>
-    public T AssertArgOfType<T>(object arg, string argName)
+    public static T AssertArgOfType<T>(object arg, string argName)
     {
         AssertArgNotNull(arg, argName);
 
@@ -88,13 +88,13 @@ public class ArgChecker
     /// </summary>
     /// <param name="arg">argument to validate</param>
     /// <param name="argName">Name of the argument checked</param>
-    /// <exception cref="System.ArgumentNullException">if <paramref name="arg"/> is Null or empty</exception>
-    /// <exception cref="System.IO.FileNotFoundException">if <see cref="arg"/> file-path not exist</exception>
-    public void AssertFileExist(string arg, string argName)
+    /// <exception cref="ArgumentNullException">if <paramref name="arg"/> is Null or empty</exception>
+    /// <exception cref="IO.FileNotFoundException">if <see cref="arg"/> file-path not exist</exception>
+    public static void AssertFileExist(string arg, string argName)
     {
         AssertArgNotNullOrEmpty(arg, argName);
 
-        if (false == File.Exists(arg))
+        if (!File.Exists(arg))
         {
             throw new FileNotFoundException(string.Format("Given file in argument '{0}' not exist.", argName), arg);
         }

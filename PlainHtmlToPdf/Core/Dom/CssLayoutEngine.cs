@@ -167,7 +167,7 @@ internal class CssLayoutEngine
             return;
 
         double cellbot = cell.ClientBottom;
-        double bottom = cell.GetMaximumBottom(cell, 0f);
+        double bottom = CssBox.GetMaximumBottom(cell, 0f);
         double dist = 0f;
 
         if (cell.VerticalAlign == CssConstants.Bottom)

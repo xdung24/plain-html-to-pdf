@@ -25,7 +25,7 @@ internal class HtmlParser
             if (tagIdx >= 0 && tagIdx < source.Length)
             {
                 // add the html text as anon css box to the structure
-                AddTextBox(source, startIdx, tagIdx, ref curBox);
+                addTextBox(source, startIdx, tagIdx, ref curBox);
 
                 if (source[tagIdx + 1] == '!')
                 {
@@ -45,14 +45,14 @@ internal class HtmlParser
                 else
                 {
                     // parse element tag to css box structure
-                    endIdx = ParseHtmlTag(source, tagIdx, ref curBox) + 1;
+                    endIdx = parseHtmlTag(source, tagIdx, ref curBox) + 1;
 
                     if (curBox.HtmlTag != null && curBox.HtmlTag.Name.Equals(HtmlConstants.Style, StringComparison.OrdinalIgnoreCase))
                     {
                         var endIdxS = endIdx;
                         endIdx = source.IndexOf("</style>", endIdx, StringComparison.OrdinalIgnoreCase);
                         if (endIdx > -1)
-                            AddTextBox(source, endIdxS, endIdx, ref curBox);
+                            addTextBox(source, endIdxS, endIdx, ref curBox);
                     }
                 }
             }
@@ -86,7 +86,7 @@ internal class HtmlParser
     /// <param name="startIdx">the start of the html part</param>
     /// <param name="tagIdx">the index of the next html tag</param>
     /// <param name="curBox">the current box in html tree parsing</param>
-    private static void AddTextBox(string source, int startIdx, int tagIdx, ref CssBox curBox)
+    private static void addTextBox(string source, int startIdx, int tagIdx, ref CssBox curBox)
     {
         var text = tagIdx > startIdx ? new SubString(source, startIdx, tagIdx - startIdx) : null;
         if (text != null)
@@ -103,7 +103,7 @@ internal class HtmlParser
     /// <param name="tagIdx">the index of the next html tag</param>
     /// <param name="curBox">the current box in html tree parsing</param>
     /// <returns>the end of the parsed part, the new start index</returns>
-    private static int ParseHtmlTag(string source, int tagIdx, ref CssBox curBox)
+    private static int parseHtmlTag(string source, int tagIdx, ref CssBox curBox)
     {
         var endIdx = source.IndexOf('>', tagIdx + 1);
         if (endIdx > 0)
@@ -111,7 +111,7 @@ internal class HtmlParser
             string tagName;
             Dictionary<string, string> tagAttributes;
             var length = endIdx - tagIdx + 1 - (source[endIdx - 1] == '/' ? 1 : 0);
-            if (ParseHtmlTag(source, tagIdx, length, out tagName, out tagAttributes))
+            if (parseHtmlTag(source, tagIdx, length, out tagName, out tagAttributes))
             {
                 if (!HtmlUtils.IsSingleTag(tagName) && curBox.ParentBox != null)
                 {
@@ -154,7 +154,7 @@ internal class HtmlParser
     /// <param name="name">return the name of the html tag</param>
     /// <param name="attributes">return the dictionary of tag attributes</param>
     /// <returns>true - the tag is closing tag, false - otherwise</returns>
-    private static bool ParseHtmlTag(string source, int idx, int length, out string name, out Dictionary<string, string> attributes)
+    private static bool parseHtmlTag(string source, int idx, int length, out string name, out Dictionary<string, string> attributes)
     {
         idx++;
         length = length - (source[idx + length - 3] == '/' ? 3 : 2);
@@ -178,7 +178,7 @@ internal class HtmlParser
         attributes = null;
         if (!isClosing && idx + length > spaceIdx)
         {
-            ExtractAttributes(source, spaceIdx, length - (spaceIdx - idx), out attributes);
+            extractAttributes(source, spaceIdx, length - (spaceIdx - idx), out attributes);
         }
 
         return isClosing;
@@ -191,7 +191,7 @@ internal class HtmlParser
     /// <param name="idx">the start index of the tag attributes in the source</param>
     /// <param name="length">the length of the tag attributes from the start index in the source</param>
     /// <param name="attributes">return the dictionary of tag attributes</param>
-    private static void ExtractAttributes(string source, int idx, int length, out Dictionary<string, string> attributes)
+    private static void extractAttributes(string source, int idx, int length, out Dictionary<string, string> attributes)
     {
         attributes = null;
 

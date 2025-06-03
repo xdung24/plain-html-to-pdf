@@ -155,7 +155,7 @@ internal class RegexParserHelper
     /// <returns>Collection of matches</returns>
     public static MatchCollection Match(string regex, string source)
     {
-        var r = GetRegex(regex);
+        var r = getRegex(regex);
         return r.Matches(source);
     }
 
@@ -200,7 +200,7 @@ internal class RegexParserHelper
     /// </summary>
     /// <param name="regex">the regex string to use</param>
     /// <returns>the regex instance</returns>
-    private static Regex GetRegex(string regex)
+    private static Regex getRegex(string regex)
     {
         Regex r;
         if (!_regexes.TryGetValue(regex, out r))
