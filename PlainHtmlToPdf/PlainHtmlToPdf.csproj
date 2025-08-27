@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0;net9.0;</TargetFrameworks>
+    <TargetFrameworks>net6.0;net8.0;net9.0;</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>PDF document generator from HTML snippet, 100% managed (C#), High performance library using PdfSharp.</Description>
@@ -13,7 +13,7 @@
     <LangVersion>10</LangVersion>
     <RepositoryUrl>https://github.com/xdung24/plain-html-to-pdf</RepositoryUrl>
     <Authors>xdung24</Authors>
-    <Version>1.0.5</Version>
+    <Version>1.0.6</Version>
     <NoWarn>SYSLIB0014</NoWarn>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -30,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="PdfSharp" Version="6.2.0" />
+    <PackageReference Include="PdfSharp" Version="6.2.1" />
   </ItemGroup>
 
   <ItemGroup>
